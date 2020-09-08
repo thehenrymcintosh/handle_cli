@@ -22,8 +22,6 @@ pub struct Dictionary {
 
 #[derive(serde::Deserialize)]
 struct ResponseJson {
-  // range: String,
-  // majorDimension: String, // exist but not used
   values: Vec<Vec<String>>
 }
 
@@ -76,12 +74,6 @@ pub async fn update() -> Result<Dictionary, DictError> {
   }
 }
 
-pub async fn print() {
-  let dict = get().await.unwrap();
-  println!("Adjectives = {:?}", dict.adjectives);
-  println!("Nouns = {:?}", dict.nouns);
-}
-
 pub async fn get() -> Result<Dictionary, DictError> {
   let loaded = load_dict();
   match loaded {
@@ -107,7 +99,7 @@ fn load_dict() -> Result<Dictionary,savefile::SavefileError>  {
 fn get_google_api_key() -> String {
   match dotenv::var("GOOGLE_API_KEY") {
       Ok(val) => val,
-      Err(e) => {
+      Err(_) => {
         println!("No GOOGLE_API_KEY env var set to read google sheet. Cannot update dictionary.");
         "".to_string()
       },

@@ -1,9 +1,6 @@
 static FEISTAL_KEYS : [u32;10] = [24,91,72,33,12,5,68,35,90,75];
-// use std::u64;
-// use std::u32;
 use std::convert::TryFrom;
 use std::string::String;
-use std::iter::FromIterator;
 
 pub fn ph_to_hex(ph: &String) -> u64 {
   let mut handle : Vec<char> = vec![];
@@ -38,7 +35,6 @@ pub fn feistal( left: u32, right: u32, forwards: bool ) -> (u32, u32) {
   let mut r : u32 = right;
   for k in keys.iter() {
     let output = feistal_round(&l,&r, k);
-    // println!("ROUND: l:{} r:{} k:{} => l':{} r':{}", l,r,k, output.0, output.1);
     l = output.0;
     r = output.1;
   }
